@@ -2,7 +2,7 @@ module.exports = {
   urls: {
     production: 'http://domain.com/',
     staging: 'http://staging.domain.com/',
-    development: 'http://domain.builtbymighty.com/',
+    development: 'http://development.domain.com/',
     local: 'http://domain.local/'
   },
   paths: {
