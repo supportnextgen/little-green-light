@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <meta charset="utf-8"/>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body id="{{ id }}" data-page="{{ data_page }}">
+
+    {% include '_partials/header.twig' %}
+
+    {% block body %}{% endblock %}
+
+    {% include '_partials/scripts.twig' %}
+  </body>
+</html>

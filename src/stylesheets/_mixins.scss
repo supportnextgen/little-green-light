@@ -1,0 +1,110 @@
+/*-------------------------------------------
+  Global Mixins
+-------------------------------------------*/
+// The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clearfix() {
+	&::after {
+		content: "";
+		clear: both;
+		display: table;
+
+		// Safari Flex Bug
+		flex-basis: 0;
+		order: 1;
+	}
+}
+
+// This font-size mixing allows you to use nice round font-sizes right out of Photoshop or sketch. It sets the pixel value and then divides it by 10 for rem. This relies on setting the font-size in the body to 62.5%. This has the handy side effect of allowing you to set em related elements dividing by 10 instead of 16. You can also uniformly scale type with media queries by just changing the body font-size. If messing with the body font-size seems uncomfortable I think it would work to leave the body’s font-size alone and then have $sizeValue divided by 16 instead of 10 for rem in the mixin.
+@mixin font-size($sizeValue) {
+	font-size: $sizeValue + px;
+	font-size: ($sizeValue / 10) + rem;
+}
+
+/*-------------------------------------------
+  Grid
+-------------------------------------------*/
+@mixin grid($total-width, $gutter-width, $row-count, $element) {
+	#{$element} {
+		$g: $gutter-width/$total-width;
+		float: left;
+		margin-bottom: $g * 100%;
+		width: ((1 - ($g * ($row-count - 1))) / $row-count) * 100%;
+
+		&:nth-child(#{$row-count}n) {
+			margin-right: 0;
+		}
+	}
+	#{$element}:not(:nth-child(#{$row-count}n)) {
+		$g: $gutter-width/$total-width;
+		margin-right: $g * 100%;
+	}
+}
+
+/* USAGE:
+
+ul {
+	background: darkblue;
+	list-style: none;
+	margin: 0 auto;
+	max-width: 960px;
+	overflow: hidden;
+
+	@include grid(960, 20, 3, li);
+
+	li {
+		background: darkred;
+		height: 100px;
+		text-indent: -999em;
+
+		&:nth-child(2n+2) {
+			-webkit-animation: silly2 5s ease-in-out 0s infinite alternate;
+		}
+		&:nth-child(3n) {
+			-webkit-animation: silly 5s ease-in-out 0s infinite alternate;
+		}
+	}
+
+	@media screen and (min-width: 30em) {
+		@include grid(960, 20, 4, li);
+	}
+	@media screen and (min-width: 40em) {
+		@include grid(960, 20, 6, li);
+	}
+
+}
+
+*/
+
+/*-------------------------------------------
+  Vertically align anything!
+-------------------------------------------*/
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+/*-------------------------------------------
+  Font-face Mixin
+  http://codepen.io/javasteve99/pen/hDxpn?editors=1100
+-------------------------------------------*/
+@mixin font-face($font-family, $file-path, $font-weight, $font-style) {
+  @font-face {
+    font-family: $font-family;
+      src: url('#{$file-path}.eot');
+      src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+           url('#{$file-path}.woff') format('woff'),
+           url('#{$file-path}.ttf') format('truetype'),
+           url('#{$file-path}.svg##{$font-family}') format('svg');
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+  // Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @font-face {
+      font-family: $font-family;
+        src: url('#{$file-path}.svg##{$font-family}') format('svg');
+    }
+  }
+}
